@@ -1,1 +1,1 @@
-# shinyPackageCreator
+This is an attempt at a bare bones Shiny app that generates functions based on user inputs and creates a package from those inputs
