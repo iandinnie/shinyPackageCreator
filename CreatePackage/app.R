@@ -25,8 +25,7 @@ server <- function(input, output) {
     }
     
  
-    # Ian is not currently sure what that does. 
-    # Also, need to figure out how to save above myFunction to .R file verbatim and read it back in
+    # Need to figure out best way to save above myFunction to .R file verbatim and read it back in
       # the dump() function seems to write it properly, but I can't load it back in. Getting this error:
         # Error in load("myFunction2.R") : 
         #   bad restore file magic number (file may be corrupted) -- no data loaded
@@ -40,6 +39,7 @@ server <- function(input, output) {
     # this function launches a new r session
     # which sort of breaks the app;
     # not sure how to handle this, should the session variable be used?
+    # Ian is not currently sure what that does. 
     # should we just build all the files in a temp subdirectory without using create_package?
     create_package(
       path = tempdir(),
