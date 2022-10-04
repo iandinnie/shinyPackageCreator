@@ -24,19 +24,23 @@ server <- function(input, output) {
       x + numberToAdd
     }
     
+ 
+    # Ian is not currently sure what that does. 
+    # Also, need to figure out how to save above myFunction to .R file verbatim and read it back in
+      # the dump() function seems to write it properly, but I can't load it back in. Getting this error:
+        # Error in load("myFunction2.R") : 
+        #   bad restore file magic number (file may be corrupted) -- no data loaded
+        # In addition: Warning message:
+        # file ‘myFunction2.R’ has magic number 'myFun'
+        #   Use of save versions prior to 2 is deprecated 
+    # oddly, I can click on the file and view with no issue
+    # I also was able to successfully create a package in a different session using dump() instead of writing the .R file by hand, so this may work
+  
     # this is the hard part
     # this function launches a new r session
     # which sort of breaks the app;
     # not sure how to handle this, should the session variable be used?
-    # Ian is not currently sure what that does. 
-    # Also, need to figure out how to save/load above myFunction to .R file verbatim; 
-    # the dump() function will save it verbatim, but I can't read it in with load(), get the following error:
-      # Error in load("myFunction.R") : 
-        # bad restore file magic number (file may be corrupted) -- no data loaded
-      # In addition: Warning message:
-      # file ‘myFunction.R’ has magic number 'myFun'
-        #  Use of save versions prior to 2 is deprecated 
-    # just running save(myFunction) does not save it verbatim, but maybe I'm using it wrong?
+    # should we just build all the files in a temp subdirectory without using create_package?
     create_package(
       path = tempdir(),
       open = F
