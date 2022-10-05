@@ -9,6 +9,14 @@ ui <- fluidPage(
 
     numericInput("num", label = h3("Add this number"), value = 1),
     
+    textInput("packageName", label = h3("Enter a name for your package"), value = "APackage"),
+    
+    textInput("companyName", label = h3("Enter the name of your company"), value = "Posit"),
+    
+    textInput("author", label = h3("Enter your name"), value = "Ian Dinnie"),
+    
+    textInput("email", label = h3("Enter your email address"), value = "test@email.com"),
+    
     actionButton("action", label = "Create Package")
 )
 
@@ -18,6 +26,12 @@ server <- function(input, output) {
 
   observeEvent(input$action, {
     numberToAdd <- input$num
+    companyName <- input$companyName
+    email <- input$email
+    author <- input$author
+    
+    print(getwd())
+    print(list.files())
     
     # define a function that adds user input to any number
     myFunction <- function(x, numberToAdd){
@@ -41,7 +55,28 @@ server <- function(input, output) {
     # Should also erase their contents at the end for privacy
     # We can then zip that directory as a tar.gz, and hopefully have a package
     
-  
+    dump("myFunction", "To be edited/R/myFunction.R")
+    
+    use_description(
+      fields = list(
+        Package = "PackageWithFunction",
+        Title = paste0("A package with custom theming for ", companyName),
+        # this authors section doesn't currently work, unsure how important that is
+        `Authors@R` = paste0('person("', unlist(stringr::str_split(author, " "))[1],'", ',unlist(stringr::str_split(author, " "))[2],'", , "',email,'", role = "aut")'),
+        Description = paste0("A package with custom theming for ", companyName),
+        License = "`use_mit_license()`",
+        Encoding = "UTF-8",
+        Roxygen = "list(markdown = TRUE)",
+        RoxygenNote = "7.2.1"
+        
+      )
+    )
+    
+    print(list.files())
+    # move this DESCRIPTION file into 'To be edited' directory
+    # this currently doesn't work, getting 'cannot rename file... 'No such file or directory exists'
+    # I believe it is creating the description at the top level of the project, but it still doesn't find it when I point it there
+    file.rename("shinyPackageCreator/DESCRIPTION", "shinyPackageCreator/CreatePackage/To be edited/DESCRIPTION")
     
   })
   
