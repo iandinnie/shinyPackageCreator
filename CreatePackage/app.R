@@ -35,17 +35,13 @@ server <- function(input, output) {
     # oddly, I can click on the file and view with no issue
     # I also was able to successfully create a package in a different session using dump() instead of writing the .R file by hand, so this may work
   
-    # this is the hard part
-    # this function launches a new r session
-    # which sort of breaks the app;
-    # not sure how to handle this, should the session variable be used?
-    # Ian is not currently sure what that does. 
-    # should we just build all the files in a temp subdirectory without using create_package?
-    create_package(
-      path = tempdir(),
-      open = F
-    )
-    save(myFunction, file = "myFunction.R")
+   # Not going to use devtools::create_package() as it launches a new session
+    # And I don't feel like figuring that out right now
+    # Instead, created a subdirectory 'To be edited' with the components of a package, which we can overwrite (thanks for the idea, Tom)
+    # Should also erase their contents at the end for privacy
+    # We can then zip that directory as a tar.gz, and hopefully have a package
+    
+  
     
   })
   
