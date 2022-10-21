@@ -1,5 +1,6 @@
 library(devtools)
 library(shiny)
+library(stringr)
 
 # Define UI
 ui <- fluidPage(
@@ -31,7 +32,7 @@ server <- function(input, output) {
     author <- input$author
     
     print(getwd())
-    print(list.files())
+    # setwd("To be edited")
     
     # define a function that adds user input to any number
     myFunction <- function(x, numberToAdd){
@@ -72,11 +73,20 @@ server <- function(input, output) {
       )
     )
     
+    Sys.sleep(2)
     print(list.files())
     # move this DESCRIPTION file into 'To be edited' directory
     # this currently doesn't work, getting 'cannot rename file... 'No such file or directory exists'
     # I believe it is creating the description at the top level of the project, but it still doesn't find it when I point it there
-    file.rename("shinyPackageCreator/DESCRIPTION", "shinyPackageCreator/CreatePackage/To be edited/DESCRIPTION")
+    print(file.exists("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"))
+    # file.copy(from = "shinyPackageCreator/DESCRIPTION",
+    #           to = "shinyPackageCreator/CreatePackage/To be edited/DESCRIPTION")
+    
+    # how to generalize? this is pulling from Ian's directory
+    # use git?
+    # use temp directory?
+    
+    file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"), paste0(getwd(),"/To be edited/DESCRIPTION"))
     
   })
   
