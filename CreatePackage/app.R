@@ -35,8 +35,9 @@ server <- function(input, output) {
     # setwd("To be edited")
     
     # define a function that adds user input to any number
-    myFunction <- function(x, numberToAdd){
-      x + numberToAdd
+    # this currently doesn't work; should add 1 to x
+    myFunction <- function(x){
+      print(x + numberToAdd)
     }
     
  
@@ -86,7 +87,8 @@ server <- function(input, output) {
     # use git?
     # use temp directory?
     
-    file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"), paste0(getwd(),"/To be edited/DESCRIPTION"))
+    file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"),
+                paste0(getwd(),"/To be edited/DESCRIPTION"))
     
   })
   
