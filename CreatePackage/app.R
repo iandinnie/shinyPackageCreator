@@ -2,7 +2,6 @@ library(devtools)
 library(shiny)
 library(stringr)
 
-# Define UI
 ui <- fluidPage(
 
     
@@ -21,8 +20,6 @@ ui <- fluidPage(
     actionButton("action", label = "Create Package")
 )
 
-# Define server logic 
-# do we have to take advantage of session argument?
 server <- function(input, output) {
 
   observeEvent(input$action, {
@@ -31,33 +28,12 @@ server <- function(input, output) {
     email <- input$email
     author <- input$author
     
-    print(getwd())
-    # setwd("To be edited")
-    
-    # define a function that adds user input to any number
-    # this currently doesn't work; should add 1 to x
-    myFunction <- function(x){
-      print(x + numberToAdd)
-    }
-    
- 
-    # Need to figure out best way to save above myFunction to .R file verbatim and read it back in
-      # the dump() function seems to write it properly, but I can't load it back in. Getting this error:
-        # Error in load("myFunction2.R") : 
-        #   bad restore file magic number (file may be corrupted) -- no data loaded
-        # In addition: Warning message:
-        # file ‘myFunction2.R’ has magic number 'myFun'
-        #   Use of save versions prior to 2 is deprecated 
-    # oddly, I can click on the file and view with no issue
-    # I also was able to successfully create a package in a different session using dump() instead of writing the .R file by hand, so this may work
-  
-   # Not going to use devtools::create_package() as it launches a new session
-    # And I don't feel like figuring that out right now
-    # Instead, created a subdirectory 'To be edited' with the components of a package, which we can overwrite (thanks for the idea, Tom)
-    # Should also erase their contents at the end for privacy
-    # We can then zip that directory as a tar.gz, and hopefully have a package
-    
-    dump("myFunction", "To be edited/R/myFunction.R")
+    # since a R file is really just plain text, we will write the functions as plain text
+    fileConn <- file("myFunctionTest.R")
+    writeLines(paste0("myFunction <- function(x) + ", input$num), fileConn)
+    close(fileConn)
+    file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/myFunctionTest.R"),
+                paste0(getwd(),"/To be edited/R/myFunctionTest.R"))
     
     use_description(
       fields = list(
@@ -75,11 +51,11 @@ server <- function(input, output) {
     )
     
     Sys.sleep(2)
-    print(list.files())
+    # print(list.files())
     # move this DESCRIPTION file into 'To be edited' directory
     # this currently doesn't work, getting 'cannot rename file... 'No such file or directory exists'
     # I believe it is creating the description at the top level of the project, but it still doesn't find it when I point it there
-    print(file.exists("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"))
+    # print(file.exists("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"))
     # file.copy(from = "shinyPackageCreator/DESCRIPTION",
     #           to = "shinyPackageCreator/CreatePackage/To be edited/DESCRIPTION")
     
