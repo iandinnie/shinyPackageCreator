@@ -23,10 +23,6 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   observeEvent(input$action, {
-    numberToAdd <- input$num
-    companyName <- input$companyName
-    email <- input$email
-    author <- input$author
     
     # since a R file is really just plain text, we will write the functions as plain text
     fileConn <- file("myFunctionTest.R")
@@ -38,10 +34,10 @@ server <- function(input, output) {
     use_description(
       fields = list(
         Package = "PackageWithFunction",
-        Title = paste0("A package with custom theming for ", companyName),
+        Title = paste0("A package with custom theming for ", input$companyName),
         # this authors section doesn't currently work, unsure how important that is
-        `Authors@R` = paste0('person("', unlist(stringr::str_split(author, " "))[1],'", ',unlist(stringr::str_split(author, " "))[2],'", , "',email,'", role = "aut")'),
-        Description = paste0("A package with custom theming for ", companyName),
+        `Authors@R` = paste0('person("', unlist(stringr::str_split(input$author, " "))[1],'", ',unlist(stringr::str_split(input$author, " "))[2],'", , "',input$email,'", role = "aut")'),
+        Description = paste0("A package with custom theming for ", input$companyName),
         License = "`use_mit_license()`",
         Encoding = "UTF-8",
         Roxygen = "list(markdown = TRUE)",
