@@ -47,13 +47,7 @@ server <- function(input, output) {
     )
     
     Sys.sleep(2)
-    # print(list.files())
-    # move this DESCRIPTION file into 'To be edited' directory
-    # this currently doesn't work, getting 'cannot rename file... 'No such file or directory exists'
-    # I believe it is creating the description at the top level of the project, but it still doesn't find it when I point it there
-    # print(file.exists("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"))
-    # file.copy(from = "shinyPackageCreator/DESCRIPTION",
-    #           to = "shinyPackageCreator/CreatePackage/To be edited/DESCRIPTION")
+
     
     # how to generalize? this is pulling from Ian's directory
     # use git?
@@ -62,7 +56,18 @@ server <- function(input, output) {
     file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/DESCRIPTION"),
                 paste0(getwd(),"/To be edited/DESCRIPTION"))
     
+    Sys.sleep(2)
+    
+    # For some reason, R isn't calling roxygenize() after load_pkgload()
+    # But docs say that it must be loaded in order to document with roxygenize?
+    # Not throwing any errors
+    load_pkgload("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/To be edited")
+    Sys.sleep(2)
+    print("package loaded")
+    roxygenize("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/To be edited")
+    
   })
+  
   
 
 }
