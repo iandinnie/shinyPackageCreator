@@ -1,6 +1,7 @@
 library(devtools)
 library(shiny)
 library(stringr)
+library(roxygen2)
 
 ui <- fluidPage(
 
@@ -24,9 +25,22 @@ server <- function(input, output) {
 
   observeEvent(input$action, {
     
+    # currently unsure how to use temp directory to create package
+    # tdr <- tempdir(dir)
+    # setwd(tdr)
     # since a R file is really just plain text, we will write the functions as plain text
     fileConn <- file("myFunctionTest.R")
-    writeLines(paste0("myFunction <- function(x) + ", input$num), fileConn)
+    writeLines(paste0("#' A test function
+                      #'
+                      #' @param x A numeric input to add to
+                      #' 
+                      #' @return The sum of x and the user input
+                      #' @export
+                      #'
+                      #' @examples
+                      #' x <- 1
+                      #' myFunction(x,", input$num,")
+                      myFunction <- function(x) + ", input$num), fileConn)
     close(fileConn)
     file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/myFunctionTest.R"),
                 paste0(getwd(),"/To be edited/R/myFunctionTest.R"))
@@ -58,13 +72,14 @@ server <- function(input, output) {
     
     Sys.sleep(2)
     
-    # For some reason, R isn't calling roxygenize() after load_pkgload()
-    # But docs say that it must be loaded in order to document with roxygenize?
-    # Not throwing any errors
-    load_pkgload("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/To be edited")
-    Sys.sleep(2)
-    print("package loaded")
+    # License is being created at top level of directory
+    use_mit_license()
+    file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/LICENSE.md"),
+                paste0(getwd(),"/To be edited/LICENSE.md"))
+    document("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/To be edited")
     roxygenize("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/To be edited")
+    # document()
+    # roxygenize()
     
   })
   
