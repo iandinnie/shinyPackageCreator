@@ -3,6 +3,9 @@ library(shiny)
 library(stringr)
 library(roxygen2)
 
+# alternatively; use Shiny to make R/ folder with functions made from inputs, provide instructions for including them into a package
+
+
 ui <- fluidPage(
 
     
@@ -26,8 +29,8 @@ server <- function(input, output) {
   observeEvent(input$action, {
     
     # currently unsure how to use temp directory to create package
-    # tdr <- tempdir(dir)
-    # setwd(tdr)
+    # path <- file.path(tempdir(), "mypkg")
+    # setwd(path)
     # since a R file is really just plain text, we will write the functions as plain text
     fileConn <- file("myFunctionTest.R")
     writeLines(paste0("#' A test function
@@ -44,7 +47,7 @@ server <- function(input, output) {
     close(fileConn)
     file.rename(paste0("/mnt/home/ian.dinnie/R/shinyPackageCreator/CreatePackage/myFunctionTest.R"),
                 paste0(getwd(),"/To be edited/R/myFunctionTest.R"))
-    
+    print(list.files())
     use_description(
       fields = list(
         Package = "PackageWithFunction",
