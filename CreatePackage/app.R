@@ -13,7 +13,7 @@ ui <- fluidPage(
 
     numericInput("num", label = h3("Add this number"), value = 1),
     
-    textInput("packageName", label = h3("Enter a name for your package"), value = "A.Package"),
+    textInput("packageName", label = h3("Enter a name for your package"), value = "aPackage"),
     
     textInput("author", label = h3("Enter your name"), value = "Ian Dinnie"),
     
